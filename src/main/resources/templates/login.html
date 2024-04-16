@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thyemleaf.org" th:replace="base::layout(~{::section})">
+<head>
+<meta charset="ISO-8859-1">
+<title>Login Page</title>
+</head>
+<body>
+	<section>
+		<div class="container p-3">
+			<div class="col-md-3 offset-md-4">
+				<div class="card">
+					<div class="card-header text-center fs-4">
+						Login Page
+					</div>
+					<div class="card-body">
+						<form>
+							<div class="mb-3">
+								<label for="exampleInputEmail1" class="form-label">Email</label>
+								<input type="email" class="form-control" id="exampleInputEmail1"
+									aria-describedby="emailHelp" name="email">
+							</div>
+							<div class="mb-3">
+								<label for="exampleInputPassword1" class="form-label">Password</label>
+								<input type="password" class="form-control" id="exampleInputPassword1" name="password">
+							</div>
+							<button type="submit" class="btn btn-primary">Login</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
