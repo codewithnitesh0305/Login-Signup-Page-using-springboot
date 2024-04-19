@@ -15,18 +15,24 @@ public class User {
 	private String email;
 	private String phoneNo;
 	private String password;
+	private String role;
+	private boolean enable;
+	private String verficationCode;
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public User(int id, String username, String email, String phoneNo, String password) {
+	
+	public User(int id, String username, String email, String phoneNo, String password, String role) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.email = email;
 		this.phoneNo = phoneNo;
 		this.password = password;
+		this.role = role;
 	}
+
 	public int getId() {
 		return id;
 	}
@@ -57,10 +63,34 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
+	
+	public boolean isEnable() {
+		return enable;
+	}
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+	public String getVerficationCode() {
+		return verficationCode;
+	}
+
+	public void setVerficationCode(String verficationCode) {
+		this.verficationCode = verficationCode;
+	}
+
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", phoneNo=" + phoneNo + ", password="
-				+ password + "]";
+				+ password + ", role=" + role + ", enable=" + enable + ", verficationCode=" + verficationCode + "]";
 	}
 	
 }
