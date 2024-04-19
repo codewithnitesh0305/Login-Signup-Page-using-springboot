@@ -40,7 +40,7 @@ public class UserServiceImp implements UserService{
 		
 		User newuser = userRepo.save(user);
 		if(newuser != null) {
-			sendEmail(newuser,hashCode);
+			sendEmail(newuser,url);
 		}
 		return newuser;
 	}
