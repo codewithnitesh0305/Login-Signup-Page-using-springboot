@@ -64,7 +64,7 @@ public class UserServiceImp implements UserService{
 		try {
 				MimeMessage message = mailSender.createMimeMessage();
 				MimeMessageHelper helper = new MimeMessageHelper(message);
-				
+				System.out.println();
 				helper.setFrom(form,"Nitesh Kumar");
 				helper.setTo(to);
 				
@@ -82,8 +82,16 @@ public class UserServiceImp implements UserService{
 	@Override
 	public boolean verifyAccount(String verficationCode) {
 		// TODO Auto-generated method stub
-		
-		return false;
+		User user = userRepo.findByVerficationCode(verficationCode);
+		if(user == null) {
+			return false;
+			
+		}else {
+			user.setEnable(true);
+			user.setVerficationCode(null);
+			userRepo.save(user);
+			return true;
+		}
 	}
 	
 	

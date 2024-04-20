@@ -3,6 +3,7 @@ package com.springboot.Controller;
 import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,5 +81,15 @@ public class HomeController {
 		
 	}
 	
+	@GetMapping("/verify")
+	public String verifyAccount(@Param("code") String code, Model model) {
+		boolean f = userservice.verifyAccount(code);
+		if(f) {
+			model.addAttribute("message","Successfully your account is verified");
+		}else {
+			model.addAttribute("message","Your verifycation code may be incorrect or already verified");
+		}
+		return "message";
+	}
 	
 }
