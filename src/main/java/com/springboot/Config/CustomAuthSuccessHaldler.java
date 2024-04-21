@@ -36,11 +36,13 @@ public class CustomAuthSuccessHaldler implements AuthenticationSuccessHandler {
 		// TODO Auto-generated method stub
 		
 		Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
+		//If the user will login than the number of attempt set 0
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		User user = customUser.getUser();
 		if (user != null) {
 			userservice.resetAttempt(user.getEmail());
 		}
+		
 		if (roles.contains("ROLE_ADMIN")) {
 			response.sendRedirect("/admin/profile");
 		} else {

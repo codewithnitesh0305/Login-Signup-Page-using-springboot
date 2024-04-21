@@ -116,6 +116,7 @@ public class UserServiceImp implements UserService{
 		userRepo.updateFailedAttempt(attempt,user.getEmail());
 	}
 
+	//If user login successfully or the time is over the it will reset 
 	@Override
 	public void resetAttempt(String email) {
 		// TODO Auto-generated method stub
@@ -123,11 +124,12 @@ public class UserServiceImp implements UserService{
 	
 	}
 
+	//If user try to login more the 3 attempt than account will lock 
 	@Override
 	public void lock(User user) {
 		// TODO Auto-generated method stub
-		user.setAccountLocked(false);
-		user.setLockTime(new Date());
+		user.setAccountLocked(false); //account will lock
+		user.setLockTime(new Date()); //when account is lock that time will save in database
 		userRepo.save(user);
 	}
 

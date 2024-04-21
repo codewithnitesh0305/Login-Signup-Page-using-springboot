@@ -65,8 +65,8 @@ public class SecutityConfig {
          .formLogin()
              .loginPage("/login")
              .loginProcessingUrl("/userLogin")
-             .failureHandler(FailierHandler)
-             .successHandler(SuccessHandler)
+             .failureHandler(FailierHandler) //If user is not login than this class will run
+             .successHandler(SuccessHandler) //If user is login than this class will run
              .permitAll();
 
 		return http.build();
