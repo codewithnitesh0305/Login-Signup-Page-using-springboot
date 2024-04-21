@@ -1,5 +1,7 @@
 package com.springboot.Entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,6 +20,9 @@ public class User {
 	private String role;
 	private boolean enable;
 	private String verficationCode;
+	private boolean isAccountLocked;
+	private int failedAttempt;
+	private Date lockTime;
 	public User() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -86,11 +91,37 @@ public class User {
 	public void setVerficationCode(String verficationCode) {
 		this.verficationCode = verficationCode;
 	}
+	
+	public boolean isAccountLocked() {
+		return isAccountLocked;
+	}
+
+	public void setAccountLocked(boolean isAccountLocked) {
+		this.isAccountLocked = isAccountLocked;
+	}
+
+	public int getFailedAttempt() {
+		return failedAttempt;
+	}
+
+	public void setFailedAttempt(int failedAttempt) {
+		this.failedAttempt = failedAttempt;
+	}
+
+	public Date getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(Date lockTeme) {
+		this.lockTime = lockTeme;
+	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", username=" + username + ", email=" + email + ", phoneNo=" + phoneNo + ", password="
-				+ password + ", role=" + role + ", enable=" + enable + ", verficationCode=" + verficationCode + "]";
+				+ password + ", role=" + role + ", enable=" + enable + ", verficationCode=" + verficationCode
+				+ ", isAccountLocked=" + isAccountLocked + ", failedAttemp=" + failedAttempt + ", lockTeme=" + lockTime
+				+ "]";
 	}
 	
 }

@@ -15,7 +15,9 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecutityConfig {
 //3
 	@Autowired
-	public CustomAuthSuccessHaldler customeAuthSuccessHandler;
+	public CustomAuthSuccessHaldler SuccessHandler;
+	@Autowired
+	public CustomeFailerHandler FailierHandler;
 	
 	//This method will Convert the simple string password into hash code
 	@Bean
@@ -63,7 +65,8 @@ public class SecutityConfig {
          .formLogin()
              .loginPage("/login")
              .loginProcessingUrl("/userLogin")
-             .successHandler(customeAuthSuccessHandler)
+             .failureHandler(FailierHandler)
+             .successHandler(SuccessHandler)
              .permitAll();
 
 		return http.build();

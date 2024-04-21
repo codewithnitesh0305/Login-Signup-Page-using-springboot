@@ -1,5 +1,6 @@
 package com.springboot.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import com.springboot.Repository.UserRepository;
 
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class UserServiceImp implements UserService{
 
 	@Autowired
@@ -34,11 +37,17 @@ public class UserServiceImp implements UserService{
 		user.setPassword(hashCode);
 		user.setRole("ROLE_USER");
 		
+		//When user is register than field Enable set 0 and field verficationcode will set unique code 
 		user.setEnable(false);
 		user.setVerficationCode(UUID.randomUUID().toString());
 		
+		user.setAccountLocked(true);
+		user.setFailedAttempt(0);
+		user.setLockTime(null);
+		
 		
 		User newuser = userRepo.save(user);
+		//If user is registered than mail will send 
 		if(newuser != null) {
 			sendEmail(newuser,url);
 		}
@@ -67,6 +76,7 @@ public class UserServiceImp implements UserService{
 				System.out.println();
 				helper.setFrom(form,"Nitesh Kumar");
 				helper.setTo(to);
+				helper.setSubject(subject);
 				
 				content = content.replace("[[name]]",user.getUsername());
 				String siteUrl = url + "/verify?code="+user.getVerficationCode();
@@ -87,11 +97,53 @@ public class UserServiceImp implements UserService{
 			return false;
 			
 		}else {
-			user.setEnable(true);
-			user.setVerficationCode(null);
+			user.setEnable(true); //If user is verified than this field set 1
+			user.setVerficationCode(null); //and this field set null
 			userRepo.save(user);
 			return true;
 		}
+	}
+	
+	
+	private static final long lock_duration_time = 30000; //5 Second
+	public static final long ATTEMPT_TIME = 3;
+	
+	//Every time when user fill the wrong password than it will increase by 1
+	@Override
+	public void increaseFaildAttempt(User user) {
+		// TODO Auto-generated method stub
+		int attempt = user.getFailedAttempt()+1;
+		userRepo.updateFailedAttempt(attempt,user.getEmail());
+	}
+
+	@Override
+	public void resetAttempt(String email) {
+		// TODO Auto-generated method stub
+		userRepo.updateFailedAttempt(0,email);
+	
+	}
+
+	@Override
+	public void lock(User user) {
+		// TODO Auto-generated method stub
+		user.setAccountLocked(false);
+		user.setLockTime(new Date());
+		userRepo.save(user);
+	}
+
+	@Override
+	public boolean unlockAccountTimeExpired(User user) {
+		// TODO Auto-generated method stub
+		long LockTimeInMills = user.getLockTime().getTime(); 
+		long currentTimeMillis = System.currentTimeMillis();
+		if(LockTimeInMills + lock_duration_time < currentTimeMillis) {
+			user.setAccountLocked(true);
+			user.setLockTime(null);
+			user.setFailedAttempt(0);
+			userRepo.save(user);
+			return true;
+		}
+		return false;
 	}
 	
 	

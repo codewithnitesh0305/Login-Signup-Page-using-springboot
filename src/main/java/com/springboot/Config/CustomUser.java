@@ -17,6 +17,17 @@ public class CustomUser implements UserDetails{
 	super();
 	this.user = user;
 }
+	
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -40,7 +51,7 @@ public class CustomUser implements UserDetails{
 	@Override
 	public boolean isAccountNonExpired() {
 		// TODO Auto-generated method stub
-		return true;
+		return user.isAccountLocked();
 	}
 
 	@Override
